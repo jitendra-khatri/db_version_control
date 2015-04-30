@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<project name="DbVC" basedir="." default="export">
+	<!-- Sets the DSTAMP, TSTAMP and TODAY properties -->
+	<tstamp/>
+
+	<!-- Load our configuration -->
+	<property file="./build.properties" />
+
+	<!-- create our importing task -->
+	<target name="import" description="Database Importing">
+		<exec command="mysql -uroot -ppassword ${db.import.name} -e 'source ${db.export.fileName}'"  passthru="true" />
+	</target>
+
+	<!-- create our exporting task -->
+	<target name="export" description="Database Importing">
+		<echo message="Exporting database to export.sql" />
+	        <exec
+	            command="mysqldump -u${db.user} -p${db.pass} ${db.export.name} > ${db.export.fileName}"
+	            dir="${project.basedir}"
+	            passthru="true" />
+	</target>
+</project>
